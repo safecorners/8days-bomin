@@ -30,13 +30,35 @@ else:
 # 상태 초기화
 # =========================================================
 
-if "raw_data" not in st.session_state:
-    st.session_state.raw_data = []
+if "passages" not in st.session_state:
+    st.session_state.passages = []
 
 # =========================================================
 # 데이터 수집
 # =========================================================
+def fetch_data():
+    ser = st.session_state.ser
+    if ser is not None and ser.is_open:
+        while ser.in_waiting > 0:
+            try:
+                message = ser.readline().decode("utf-8").strip()
+                if not message:
+                    continue
+                payload = json.loads(message)
+                if payload.get("type") == "gate":
+                    st.session_state.passages.append({
+                        "time": datetime.now(),
+                        "event": payload["event"],
+                    })
+            except Exception as e:
+                st.sidebar.error(e)
 
+with st.sidebar:
+    @st.fragment(run_every="1s")
+    def collect_data():
+        fetch_data()
+
+    collect_data()
 
 # =========================================================
 # 페이지 내비게이션 및 앱 실행
