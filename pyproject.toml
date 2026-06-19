@@ -8,6 +8,7 @@ dependencies = [
     "pandas>=2.3.3",
     "pyserial>=3.5",
     "python-dotenv>=1.2.2",
+    "simpy>=4.1.2",
     "streamlit>=1.55.0",
     "watchdog>=6.0.0",
 ]

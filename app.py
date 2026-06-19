@@ -66,6 +66,7 @@ with st.sidebar:
 
 pages = [
     st.Page("dashboard.py", title="대시보드", icon=":material/dashboard:", default=True),
+    st.Page("poisson.py", title="시뮬레이션", icon=":material/modeling:"),
 ]
 
 page = st.navigation(pages=pages)
